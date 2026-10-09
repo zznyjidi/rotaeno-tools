@@ -42,7 +42,7 @@ def cap_failed(chart_rating: float, passed: bool) -> float:
     return chart_rating if passed else min(chart_rating, 6.0)
 
 def chart_rating_to_player_rating(sorted_chart_ratings: list) -> float:
-    b10 = sorted_chart_ratings[0:10]
+    b10 = sorted_chart_ratings[:10]
     b11_20 = sorted_chart_ratings[10:20]
     b21_40 = sorted_chart_ratings[20:40]
     return (sum(b10)/10) * 0.6 + (sum(b11_20)/10) * 0.2 + (sum(b21_40)/20) * 0.2

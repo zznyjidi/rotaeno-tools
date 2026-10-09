@@ -47,5 +47,11 @@ for song, score in ratings.items():
         if entry not in ['IV', 'IV_Alpha']
     )
 
-for song, score, level in splitted_effective_rating_entry:
+splitted_effective_rating_entry.sort(key=lambda x: x[1], reverse=True)
+
+print(f'Rating: {rating.chart_rating_to_player_rating([x[1] for x in splitted_effective_rating_entry])}')
+
+for index, (song, score, level) in enumerate(splitted_effective_rating_entry):
+    if index in [10, 20, 40]:
+        print('----------')
     print(f'{song:35} {level:10} {score}')
