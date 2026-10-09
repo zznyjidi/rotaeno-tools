@@ -21,10 +21,9 @@ def float_or_zero(x: str) -> float:
 
 with open('constant.csv', 'r', encoding='utf-8') as constant_file:
     reader = csv.reader(constant_file)
-    constant = {row[0]: (row[1], dict(zip(Levels, list(map(float_or_zero ,row[2:]))))) for row in reader}
+    constant = {row[0]: (row[1], dict(zip(Levels, list(map(float_or_zero, row[2:]))))) for row in reader}
 
-
-offsets = {
+ratings = {
     song: {
         level: rating.cap_failed(result[0] + constant[song][1][level], info['IsCleared'])
         for level, info in score['levels'].items() 
@@ -33,6 +32,20 @@ offsets = {
     for song, score in scores.items()
     }
 
-for song, score in offsets.items():
-    if score:
-        print(f'{song:35} {score}')
+splitted_effective_rating_entry = []
+for song, score in ratings.items():
+    if ('IV' in score) or ('IV_Alpha' in score):
+        IVs = {
+            'IV_Alpha': score.get('IV_Alpha', 0.0),
+            'IV': score.get('IV', 0.0)
+        }
+        entry = max(IVs, key=IVs.get)
+        splitted_effective_rating_entry.append((song, score[entry], entry))
+    splitted_effective_rating_entry.extend(
+        (song, value, entry)
+        for entry, value in score.items()
+        if entry not in ['IV', 'IV_Alpha']
+    )
+
+for song, score, level in splitted_effective_rating_entry:
+    print(f'{song:35} {level:10} {score}')
