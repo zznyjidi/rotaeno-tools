@@ -32,8 +32,14 @@ ratings = {
     for song, score in scores.items()
     }
 
+with open('deprecated.csv', 'r', encoding='utf-8') as deprecated_file:
+    reader = csv.reader(deprecated_file)
+    deprecated = [row[0] for row in reader]
+
 splitted_effective_rating_entry = []
 for song, score in ratings.items():
+    if song in deprecated:
+        continue
     if ('IV' in score) or ('IV_Alpha' in score):
         IVs = {
             'IV_Alpha': score.get('IV_Alpha', 0.0),
