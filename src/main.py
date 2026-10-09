@@ -51,7 +51,7 @@ splitted_effective_rating_entry.sort(key=lambda x: x[1], reverse=True)
 
 print(f'Rating: {rating.chart_rating_to_player_rating([x[1] for x in splitted_effective_rating_entry])}')
 
-for index, (song, score, level) in enumerate(splitted_effective_rating_entry):
+for index, (song, song_rating, level) in enumerate(splitted_effective_rating_entry):
     if index in [10, 20, 40]:
         print('----------')
-    print(f'{song:35} {level:10} {score}')
+    print(f'{song:35} {constant[song][1][level]:4.1f} {level:10} {song_rating:10.05f}/{constant[song][1][level] + 3.6:<4.1f}  {scores[song]['levels'][level]['Score']:8}   {constant[song][0]:35}')
