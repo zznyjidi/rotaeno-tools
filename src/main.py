@@ -9,7 +9,7 @@ JSON: TypeAlias = dict[str, "JSON"] | list["JSON"] | str | int | float | bool | 
 Levels = ['I', 'II', 'III', 'IV', 'IV_Alpha']
 
 
-def calculate_song_ratings(scores: dict, constant: dict[str, tuple[str, dict[str, float]]]) -> dict[str, dict]:
+def calculate_song_ratings(scores: dict, constant: dict[str, tuple[str, dict[str, float]]]) -> dict[str, dict[str, float]]:
     return {
         song: {
             level: rating.cap_failed(result[0] + constant[song][1][level], info['IsCleared'])
@@ -20,7 +20,7 @@ def calculate_song_ratings(scores: dict, constant: dict[str, tuple[str, dict[str
     }
 
 
-def split_and_filter_song_ratings(song_ratings, deprecated):
+def split_and_filter_song_ratings(song_ratings: dict[str, dict[str, float]], deprecated: list[str]) -> list[tuple[str, float, str]]:
     entries = []
     for song, score in song_ratings.items():
         if song in deprecated:
